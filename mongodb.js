@@ -21,7 +21,9 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client)=> {
     }).then(result => console.log(result))
     .catch(error => console.log(error));
 
-    db.collection('tasks').updateMany({}, {
+    db.collection('tasks').updateMany({
+        completed: false
+    }, {
         $set: {completed: true}
     }).then(result => console.log(result))
     .catch(error=> console.log(error));

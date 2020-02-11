@@ -8,17 +8,21 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client)=> {
         return console.log('Unable to connect to database!');
     const db = client.db(databaseName);
 
-    // db.collection('users').findOne({name: 'thanh'}, (error, user)=>{
-    //     if(error) return console.log('Unable to find user!');
+    db.collection('users').updateOne({
+        _id: new ObjectID("5e41494fe899d61fb077e241")
+    }, {
+        // $inc: {
+        //     age: 2
+        //     // age: -2
+        // }
+        $set: {
+            age: 2
+        }
+    }).then(result => console.log(result))
+    .catch(error => console.log(error));
 
-    //     console.log(user)
-    // });
-
-    db.collection('tasks').findOne({_id: new ObjectID("5e414fb6615ef6027804aab9")}, (error, task) =>{
-        console.log(task);
-    });
-
-    db.collection('tasks').find({completed: false}).toArray((error, tasks)=>{
-        console.log(tasks);
-    });
+    db.collection('tasks').updateMany({}, {
+        $set: {completed: true}
+    }).then(result => console.log(result))
+    .catch(error=> console.log(error));
 });

@@ -14,38 +14,16 @@ app.listen(port, () => {
     console.log(`Server is up on port  ${port}`);
 });
 
-const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const myFunction = async () => {
-    const password = 'Huy123';
-    
-    
-    bcrypt.hash(password, 8).then(hashedPassword => {
-        bcrypt.compare(password, hashedPassword).then(isMatch => {
-            console.log(isMatch)
-        }).catch(e => {
-            console.log(e)
-        })
-    }).catch(e => {
-        console.log(e)
-    })
-    
-    // promise chaining
-    bcrypt.hash(password, 8).then(hashedPassword => {
-        console.log(password, hashedPassword)
-        return bcrypt.compare(password, hashedPassword);
-    }).then(isMatch => {
-        console.log(isMatch);
-    }).catch(e => {
-        console.log(e)
-    })
+    const token = jwt.sign({_id: '123'}, 'verysecure', {expiresIn: '1 seconds'});
+    console.log(token);
 
-    // async await
-    const hashedPassword = await bcrypt.hash(password, 8);
+    const data = jwt.verify(token, 'verysecure');
+    console.log(data);
 
-    console.log(password, hashedPassword)
-    const isMatch = await bcrypt.compare('Huy123', hashedPassword);
-    console.log(isMatch)
+
 }
 
 myFunction()

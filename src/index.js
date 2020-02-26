@@ -18,16 +18,18 @@ app.listen(port, () => {
     console.log(`Server is up on port  ${port}`);
 });
 
-const jwt = require('jsonwebtoken');
 
-const myFunction = async () => {
-    const token = jwt.sign({_id: '123'}, 'verysecure', {expiresIn: '1 seconds'});
-    console.log(token);
-
-    const data = jwt.verify(token, 'verysecure');
-    console.log(data);
-
-
+const user = {
+    name: 'huy',
+    age: 21
+}
+               
+user.toJSON = function () {
+    return user.name
 }
 
-myFunction()
+console.log(JSON.stringify(user));
+
+// res.send(data) thì res.send sẽ JSON.stringify(data), 
+// hàm toJSON của instance user sẽ tự động gọi mỗi khi instance của nó stringify.
+// Cụ thể, hàm user.toJSON sẽ tự động gọi khi JSON.stringify(user)

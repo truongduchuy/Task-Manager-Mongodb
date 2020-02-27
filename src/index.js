@@ -19,17 +19,17 @@ app.listen(port, () => {
 });
 
 
-const user = {
-    name: 'huy',
-    age: 21
-}
-               
-user.toJSON = function () {
-    return user.name
+const Task = require('./models/task');
+const User = require('./models/user');
+
+const main = async () => {
+    // const task = await Task.findById('5e577ddd35d4c122ac2f2aa4');
+    // await task.populate('owner').execPopulate();
+    // console.log(task.owner)
+
+    const user = await User.findById('5e57763d4e834b31c4fcbcce');
+    await user.populate('tasks').execPopulate()
+    console.log(user.tasks)
 }
 
-console.log(JSON.stringify(user));
-
-// res.send(data) thì res.send sẽ JSON.stringify(data), 
-// hàm toJSON của instance user sẽ tự động gọi mỗi khi instance của nó stringify.
-// Cụ thể, hàm user.toJSON sẽ tự động gọi khi JSON.stringify(user)
+main()

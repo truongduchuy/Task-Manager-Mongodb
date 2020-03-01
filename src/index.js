@@ -18,18 +18,21 @@ app.listen(port, () => {
     console.log(`Server is up on port  ${port}`);
 });
 
+const multer = require('multer');
+const upload = multer({
+    dest: 'images',
+    limits: {
+        fileSize: 1000000
+    },
+    fileFilter(req, file, callback) {
+        if(!file.originalname.match(/\.(doc|docx)$/)) {
+            return callback(new Error('Please upload a Word document'))
+        }
 
-const Task = require('./models/task');
-const User = require('./models/user');
+        callback(undefined, true);
+    }
+});
 
-const main = async () => {
-    // const task = await Task.findById('5e577ddd35d4c122ac2f2aa4');
-    // await task.populate('owner').execPopulate();
-    // console.log(task.owner)
-
-    const user = await User.findById('5e57763d4e834b31c4fcbcce');
-    await user.populate('tasks').execPopulate()
-    console.log(user.tasks)
-}
-
-main()
+app.post('/upload', upload.single('file'), (req, res) => {
+    res.send();
+});

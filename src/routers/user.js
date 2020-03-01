@@ -3,6 +3,7 @@ const router = new express.Router()
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 const multer = require('multer');
+const sharp = require('sharp');
 
 router.post('/users/signup', async (req, res) => {
     const user = new User(req.body);
@@ -124,8 +125,9 @@ const upload = multer({
 
 // nếu middle upload.single('avatar') throw error thì last middleware được gọi, mục đích trả về error kiểu JSON
 router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
-    console.log(req.file)
-    req.user.avatar = req.file.buffer
+    const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).png().toBuffer();
+    console.log(buffer)
+    req.user.avatar = buffer
     await req.user.save();
 
     res.send();

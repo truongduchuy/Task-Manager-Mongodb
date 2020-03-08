@@ -29,10 +29,6 @@ test('Should sign up a new user', async () => {
         password: 'fssdfdsfds'
     }).expect(201)
 
-    // some advanced test
-    // const user = await User.findById(response.body.user._id)
-    // expect(user).toBeNull();
-
     expect(response.body).toMatchObject({
         name: 'Huy',
         email: 'huy0935903718@gmail.com',
@@ -40,13 +36,11 @@ test('Should sign up a new user', async () => {
 })
 
 test('Should log in success', async () => {
-    const response = await request(app).post('/users/login').send({
+    await request(app).post('/users/login').send({
         email: userOne.email,
         password: userOne.password
     }).send(200)
 
-    // const user = await User.findById(userOneId)
-    // expect(response.body.token).toBe(user.tokens[0].token)
 })
 
 test('Should log in fail', async () => {
